@@ -14,4 +14,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CodingWiki_Models\CodingWiki_Models.csproj" />
+  </ItemGroup>
+
 </Project>
