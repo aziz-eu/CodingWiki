@@ -21,5 +21,10 @@ namespace CodingWiki_DataAccess.Data
             options.UseSqlServer("Server=LAPTOP-B04RPVN4\\SQLEXPRESS;Database=CodingWiki;Trusted_Connection=True;TrustServerCertificate=True");
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>().Property(u => u.Price).HasPrecision(18, 5);
+        }
     }
 }
