@@ -12,6 +12,8 @@ namespace CodingWiki_Models.Models
         [Key]
         public int Id { get; set; }
         public string Title { get; set; }
+
+        [MaxLength(20)]
         public string ISBN { get; set; }
         public decimal Price { get; set; }
     }

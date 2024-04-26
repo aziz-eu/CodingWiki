@@ -3,6 +3,7 @@ using CodingWiki_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWiki_DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240426040057_GenereTblReNametoCategory")]
+    partial class GenereTblReNametoCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,8 +32,7 @@ namespace CodingWiki_DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ISBN")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 5)
@@ -43,22 +44,6 @@ namespace CodingWiki_DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Books");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ISBN = "12345",
-                            Price = 100.30m,
-                            Title = "New Book1 "
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ISBN = "12342389285",
-                            Price = 10.30m,
-                            Title = "New Book2 "
-                        });
                 });
 
             modelBuilder.Entity("CodingWiki_Models.Models.Category", b =>

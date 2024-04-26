@@ -15,7 +15,7 @@ namespace CodingWiki_DataAccess.Data
             
         }
         public DbSet<Book> Books { get; set; }
-        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnConfiguring (DbContextOptionsBuilder options)
         {
@@ -26,6 +26,10 @@ namespace CodingWiki_DataAccess.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>().Property(u => u.Price).HasPrecision(18, 5);
+            modelBuilder.Entity<Book>().HasData(
+                new Book { Id = 1, Price = 100.30m, ISBN = "12345" , Title = "New Book1 " },
+                new Book { Id = 2, Price = 10.30m, ISBN = "12342389285", Title = "New Book2 " }
+            );
         }
     }
 }
