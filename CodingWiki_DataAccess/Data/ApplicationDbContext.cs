@@ -19,7 +19,8 @@ namespace CodingWiki_DataAccess.Data
         public DbSet<Author> Authors { get; set; }
         public DbSet <Publisher> Publishers { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
-        public DbSet<Book_Detail> Book_Details { get; set; }
+        public DbSet<Book_Detail> book_Details { get; set; }
+
 
 
 
@@ -33,9 +34,11 @@ namespace CodingWiki_DataAccess.Data
         {
             modelBuilder.Entity<Book>().Property(u => u.Price).HasPrecision(18, 5);
             modelBuilder.Entity<Book>().HasData(
-                new Book { Id = 1, Price = 100.30m, ISBN = "12345" , Title = "New Book1 " },
-                new Book { Id = 2, Price = 10.30m, ISBN = "12342389285", Title = "New Book2 " }
+                new Book { Id = 1, Price = 100.30m, ISBN = "12345" , Title = "New Book1 ", Publisher_Id = 1 },
+                new Book { Id = 2, Price = 10.30m, ISBN = "12342389285", Title = "New Book2 ", Publisher_Id = 1 }
             );
+            modelBuilder.Entity<Publisher>().HasData(
+                new Publisher { Publisher_Id = 1, Name = "Prio", Location = "Dhaka",});
         }
     }
 }

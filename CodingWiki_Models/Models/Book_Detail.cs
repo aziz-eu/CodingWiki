@@ -21,6 +21,6 @@ namespace CodingWiki_Models.Models
         [ForeignKey("Book")]
         public int Book_Id { get; set; }
         public Book Book { get; set; }
-        
+
     }
 }

@@ -17,7 +17,11 @@ namespace CodingWiki_Models.Models
         [MaxLength(20)]
         public string ISBN { get; set; }
         public decimal Price { get; set; }
-           
-       public Book_Detail BookDetail { get; set; }   
+
+        public Book_Detail BookDetail { get; set; }
+
+        [ForeignKey("Publisher")]
+        public int Publisher_Id { get; set; }
+        public Publisher Publisher { get; set; }
     }
 }

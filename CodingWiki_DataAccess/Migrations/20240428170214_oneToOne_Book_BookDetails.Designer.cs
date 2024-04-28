@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWiki_DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240428155931_addBookDetailsTbl")]
-    partial class addBookDetailsTbl
+    [Migration("20240428170214_oneToOne_Book_BookDetails")]
+    partial class oneToOne_Book_BookDetails
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -100,6 +100,9 @@ namespace CodingWiki_DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookDetail_Id"), 1L, 1);
 
+                    b.Property<int>("Book_Id")
+                        .HasColumnType("int");
+
                     b.Property<int>("NumberOfCapter")
                         .HasColumnType("int");
 
@@ -114,7 +117,10 @@ namespace CodingWiki_DataAccess.Migrations
 
                     b.HasKey("BookDetail_Id");
 
-                    b.ToTable("Book_Details");
+                    b.HasIndex("Book_Id")
+                        .IsUnique();
+
+                    b.ToTable("book_Details");
                 });
 
             modelBuilder.Entity("CodingWiki_Models.Models.Category", b =>
@@ -171,6 +177,22 @@ namespace CodingWiki_DataAccess.Migrations
                     b.HasKey("SubCategory_Id");
 
                     b.ToTable("SubCategories");
+                });
+
+            modelBuilder.Entity("CodingWiki_Models.Models.Book_Detail", b =>
+                {
+                    b.HasOne("CodingWiki_Models.Models.Book", "Book")
+                        .WithOne("BookDetail")
+                        .HasForeignKey("CodingWiki_Models.Models.Book_Detail", "Book_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("CodingWiki_Models.Models.Book", b =>
+                {
+                    b.Navigation("BookDetail");
                 });
 #pragma warning restore 612, 618
         }
