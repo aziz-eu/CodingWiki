@@ -4,6 +4,7 @@ using CodingWiki_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWiki_DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240428191900_ManyToMany_Author_Book")]
+    partial class ManyToMany_Author_Book
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,21 @@ namespace CodingWiki_DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("AuthorBook", b =>
+                {
+                    b.Property<int>("Author_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BooksId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Author_Id", "BooksId");
+
+                    b.HasIndex("BooksId");
+
+                    b.ToTable("AuthorBook");
+                });
 
             modelBuilder.Entity("CodingWiki_Models.Models.Author", b =>
                 {
@@ -128,29 +145,6 @@ namespace CodingWiki_DataAccess.Migrations
                     b.ToTable("book_Details");
                 });
 
-            modelBuilder.Entity("CodingWiki_Models.Models.BookAuthorMap", b =>
-                {
-                    b.Property<int>("Book_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Author_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Author_Id1")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Book_Id", "Author_Id");
-
-                    b.HasIndex("Author_Id1");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("BookAuthorMap");
-                });
-
             modelBuilder.Entity("CodingWiki_Models.Models.Category", b =>
                 {
                     b.Property<int>("Category_Id")
@@ -215,6 +209,21 @@ namespace CodingWiki_DataAccess.Migrations
                     b.ToTable("SubCategories");
                 });
 
+            modelBuilder.Entity("AuthorBook", b =>
+                {
+                    b.HasOne("CodingWiki_Models.Models.Author", null)
+                        .WithMany()
+                        .HasForeignKey("Author_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodingWiki_Models.Models.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CodingWiki_Models.Models.Book", b =>
                 {
                     b.HasOne("CodingWiki_Models.Models.Publisher", "Publisher")
@@ -237,30 +246,8 @@ namespace CodingWiki_DataAccess.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("CodingWiki_Models.Models.BookAuthorMap", b =>
-                {
-                    b.HasOne("CodingWiki_Models.Models.Author", "Author")
-                        .WithMany("bookAuthorMaps")
-                        .HasForeignKey("Author_Id1");
-
-                    b.HasOne("CodingWiki_Models.Models.Book", "Book")
-                        .WithMany("BookAuthorMaps")
-                        .HasForeignKey("BookId");
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("CodingWiki_Models.Models.Author", b =>
-                {
-                    b.Navigation("bookAuthorMaps");
-                });
-
             modelBuilder.Entity("CodingWiki_Models.Models.Book", b =>
                 {
-                    b.Navigation("BookAuthorMaps");
-
                     b.Navigation("BookDetail");
                 });
 

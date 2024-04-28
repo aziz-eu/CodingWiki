@@ -28,6 +28,7 @@ namespace CodingWiki_Models.Models
                 return $"{FirstName} {LastName}";
             }
         }
+        public List<BookAuthorMap> bookAuthorMaps { get; set; }
 
 
     }
