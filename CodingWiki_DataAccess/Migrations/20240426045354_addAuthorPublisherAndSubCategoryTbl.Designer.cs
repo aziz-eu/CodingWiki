@@ -4,6 +4,7 @@ using CodingWiki_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWiki_DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240426045354_addAuthorPublisherAndSubCategoryTbl")]
+    partial class addAuthorPublisherAndSubCategoryTbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,31 +90,6 @@ namespace CodingWiki_DataAccess.Migrations
                             Price = 10.30m,
                             Title = "New Book2 "
                         });
-                });
-
-            modelBuilder.Entity("CodingWiki_Models.Models.Book_Detail", b =>
-                {
-                    b.Property<int>("BookDetail_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookDetail_Id"), 1L, 1);
-
-                    b.Property<int>("NumberOfCapter")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfPage")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<double>("Weight")
-                        .HasColumnType("float");
-
-                    b.HasKey("BookDetail_Id");
-
-                    b.ToTable("Book_Details");
                 });
 
             modelBuilder.Entity("CodingWiki_Models.Models.Category", b =>
