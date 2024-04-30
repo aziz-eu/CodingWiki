@@ -11,7 +11,7 @@ namespace CodingWiki_DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext() 
+        public ApplicationDbContext(DbContextOptions <ApplicationDbContext> options) : base (options) 
         {
             
         }
@@ -33,7 +33,7 @@ namespace CodingWiki_DataAccess.Data
 
         protected override void OnConfiguring (DbContextOptionsBuilder options)
         {
-            options.UseSqlServer("Server=LAPTOP-B04RPVN4\\SQLEXPRESS;Database=CodingWiki;Trusted_Connection=True;TrustServerCertificate=True");
+          //  options.UseSqlServer("Server=LAPTOP-B04RPVN4\\SQLEXPRESS;Database=CodingWiki;Trusted_Connection=True;TrustServerCertificate=True");
 
         }
 
