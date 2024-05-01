@@ -72,5 +72,53 @@ namespace CodingWiki_Web.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        public async Task <IActionResult> CreateMultiple2(Category obj)
+        {
+            List<Category> categories = new List<Category>();
+            for (int i = 0; i < 2; i++)
+            {
+                categories.Add(new Category { CategoryName = Guid.NewGuid().ToString() });
+            }
+            await _db.AddRangeAsync(categories);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        public async Task<IActionResult> CreateMultiple5(Category obj)
+        {
+            List<Category> categories = new List<Category>();
+            for (int i = 0; i < 5; i++)
+            {
+                categories.Add(new Category { CategoryName = Guid.NewGuid().ToString() });
+            }
+            await _db.AddRangeAsync(categories);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
+        public async Task<IActionResult> RemoveMultiple2(Category obj)
+        {
+            List<Category> categories = _db.Categories.OrderByDescending(u=>u.Category_Id).Take(2).ToList();
+          
+           
+             _db.RemoveRange(categories);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        public async Task<IActionResult> RemoveMultiple5(Category obj)
+        {
+            List<Category> categories = _db.Categories.OrderByDescending(u => u.Category_Id).Take(5).ToList();
+           
+                _db.RemoveRange(categories);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
+
     }
 }
