@@ -17,14 +17,14 @@ namespace CodingWiki_Web.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            List<Book> books = await _db.Books.ToListAsync();
+            List<Book> books = await _db.Books.Include(u=>u.Publisher).ToListAsync();
 
-            foreach (var obj in books)
-            {
+            //foreach (var obj in books)
+            //{
                 
-                //obj.Publisher = await _db.Publishers.FindAsync(obj.Publisher_Id);
-                await _db.Entry(obj).Reference(u=> u.Publisher).LoadAsync();
-            }
+            //    //obj.Publisher = await _db.Publishers.FindAsync(obj.Publisher_Id);
+            //    await _db.Entry(obj).Reference(u=> u.Publisher).LoadAsync();
+            //}
 
             return View(books);
         }
@@ -94,8 +94,8 @@ namespace CodingWiki_Web.Controllers
                 return NotFound();
             }
             Book_Detail book_Detail = new Book_Detail();
-            book_Detail.Book = await _db.Books.FirstOrDefaultAsync(u => u.Id == id);
-            book_Detail = await _db.book_Details.FirstOrDefaultAsync(u => u.Book_Id == id);
+            //book_detail.book = await _db.books.firstordefaultasync(u => u.id == id);
+            book_Detail = await _db.book_Details.Include(u=> u.Book).FirstOrDefaultAsync(u => u.Book_Id == id);
             if (book_Detail == null)
             {
                 return NotFound();
