@@ -21,6 +21,7 @@ namespace CodingWiki_Web.Controllers
 
             foreach (var obj in books)
             {
+                
                 //obj.Publisher = await _db.Publishers.FindAsync(obj.Publisher_Id);
                 await _db.Entry(obj).Reference(u=> u.Publisher).LoadAsync();
             }
@@ -84,6 +85,49 @@ namespace CodingWiki_Web.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+           
+            if (id == 0 || id == null)
+            {
+                return NotFound();
+            }
+            Book_Detail book_Detail = new Book_Detail();
+            book_Detail.Book = await _db.Books.FirstOrDefaultAsync(u => u.Id == id);
+            book_Detail = await _db.book_Details.FirstOrDefaultAsync(u => u.Book_Id == id);
+            if (book_Detail == null)
+            {
+                return NotFound();
+            }
+            return View(book_Detail);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(Book_Detail book_Detail)
+        {
+            try
+            {
+               
+                if (book_Detail.BookDetail_Id == 0)
+                {
+                    await _db.book_Details.AddAsync(book_Detail.Book.BookDetail);
+                }
+                else
+                {
+                    _db.book_Details.Update(book_Detail);
+                }
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
+        }
+
 
     }
 }
